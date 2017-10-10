@@ -1,0 +1,7 @@
+include *.md
+include *.txt
+include *.rst
+include setup.*
+recursive-include docs *
+recursive-include examples *
+recursive-include solidwebpush *.py
