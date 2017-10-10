@@ -284,7 +284,7 @@ class SolidCookiesParser:
 
         return s.__output__
 
-__COOKIES_FILE__ = "lib/lib.scookies.dat"
+__COOKIES_FILE__ = "sscraper.scookies.dat"
 __cookies__ = {"*": {}}
 __cookies_parser__ = SolidCookiesParser()
 __last_domain__ = "*"
