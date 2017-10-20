@@ -1,7 +1,7 @@
 
 # Solid Scraper
 
-Easy to use JQuery-Like API for Web Scraping/Crawling.
+Easy to use JQuery-Like API for Web Scraping/Crawling. It also supports Cookies and custom User Agents.
 
 ---
 ## 1. Installation
