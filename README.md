@@ -34,7 +34,7 @@ import solidscraper as ss
 doc = ss.load("https://www.example.com/the/path")
 
 # print the list of urls from all <a> elements inside <div id="links">
-print doc.select(div #links).then("a").getAttribute("href")
+print doc.select("div #links").then("a").getAttribute("href")
 ````
 
 Getting the text of all \<span\> elements inside \<p\> whose class are 'info':
@@ -45,5 +45,5 @@ import solidscraper as ss
 doc = ss.load("https://www.example.com/the/path")
 
 # print the text of all <span> elements inside <p class="info">
-print doc.select(p .info).then("span").text()
+print doc.select("p .info").then("span").text()
 ````
