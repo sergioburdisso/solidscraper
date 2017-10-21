@@ -8,9 +8,7 @@ from io import open
 from setuptools import setup
 
 name = 'solidscraper'
-description = """
-This package lets your script scrape web sites. JQuery-Like API.
-"""
+description = "This package lets your script scrape web sites. JQuery-Like API."
 
 
 def read_requirements(file_name):
