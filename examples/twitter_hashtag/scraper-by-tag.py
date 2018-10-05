@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- encoding: utf-8 -*-
 from __future__ import print_function
+
 import solidscraper as ss
 import traceback
 import argparse
@@ -10,7 +11,10 @@ import time
 from datetime import timedelta
 from datetime import datetime
 from dateutil import tz
-from urllib import quote as url_encode
+try:
+    from urllib.parse import quote as url_encode
+except:
+    from urllib import quote as url_encode
 
 parser = argparse.ArgumentParser(
     description='LIDIC Twitter Scraper v.1.0',
@@ -102,8 +106,6 @@ def download_n(hashtag, N):
             items_html = j["items_html"].encode("utf8")
             min_position = j["min_position"]
 
-            items_html = "<html>%s</html>" % (items_html)
-
             document = ss.parse(items_html)
             items_html = document.select("li")
             for node in items_html:
@@ -154,7 +156,7 @@ def download_n(hashtag, N):
             has_more_items = items_html
 
             i += 1
-        except Exception, e:
+        except Exception as e:
             print("------------------------------------------")
             traceback.print_stack()
             print("[ error: %s ]" % str(e))
@@ -191,3 +193,4 @@ if __name__ == "__main__":
             "\n|||||||||||||||||||||", c.upper(), "|||||||||||||||||||||||||"
         )
         download_n(c, _LIMIT_)
+    print("[ finished ]")

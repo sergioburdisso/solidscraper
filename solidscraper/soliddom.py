@@ -221,7 +221,7 @@ def create(html, charset="utf-8"):
 
     try:
         _snode = SolidNode(BeautifulSoup(html, "html.parser"))
-    except Exception, e:
+    except Exception as e:
         raise SolidDomException(
             "Error while trying to parse the HTML response: %s" % str(e)
         )

@@ -3,13 +3,13 @@
 
 from __future__ import print_function
 
-import solidcookies as scookies
-import solidhttp as shttp
-import soliddom as sdom
+from . import solidcookies as scookies
+from . import solidhttp as shttp
+from . import soliddom as sdom
 import re
 import os
 
-__version__ = '0.7.4'
+__version__ = '0.7.5'
 __license__ = 'MIT'
 
 
@@ -119,8 +119,7 @@ def __request__(method, url, params):
         if __op_verbose__:
             print("[ sscraper: redirecting to ", _r_url, "]")
 
-    elif len(_response.body) < 512 and (
-            _response.body.find('location.replace("http') != -1):
+    elif len(_response.body) < 512 and b'location.replace("http' in _response.body:
 
         _r_url = re.search('(https?://.*?)[ ">]', _response.body).group(1)
         if __op_verbose__:

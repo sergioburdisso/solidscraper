@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 
-import httplib
 import urllib
-import string
 import re
+try:
+    import http.client as httplib
+except:
+    import httplib
+
 
 __ERRORS__ = {
     "send": "error: couldn't send the request to the server",
@@ -55,7 +58,7 @@ class Response:
 
     def getHeader(self, name):
         for h in self.headers:
-            if string.lower(h[0]) == string.lower(name):
+            if h[0].lower() == name.lower():
                 return h[1]
         return ""
 
@@ -80,7 +83,7 @@ def __request__(method, url, body, headers):
 
     try:
         _conn.request(method, _path, body, headers)
-    except Exception, e:
+    except Exception as e:
         if str(e).find("timed out") != -1:
             raise httplib.ResponseNotReady
         else:
@@ -100,7 +103,7 @@ def parseUrl(url):
     _addr = m.group("base_address") or __last_url__.domain
     _port = m.group("port")
     _path = m.group("path") or "/"
-    _prot = string.lower(_prot)
+    _prot = _prot.lower()
 
     return URL(_prot, _addr, _port, _path)
 
