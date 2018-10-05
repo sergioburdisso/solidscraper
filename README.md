@@ -46,4 +46,4 @@ doc = ss.load("https://www.example.com/the/path")
 print(doc.select("p .info").then("span").text())
 ````
 
-**Note:** these examples use the python 3 print function, in case you want to run them with python 2, either replace the `print()` function for the python 2 `print` statement or add the following import line as the first statement of your code: `from __future__ import print_function`.
+**Note:** these examples use the python 3 print function, in case you want to run them with python 2, either replace the `print()` function with the python 2 `print` statement or add the following import line as the first statement of your code: `from __future__ import print_function`.
