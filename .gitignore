@@ -1,0 +1,10 @@
+*.dat
+*.pyc
+*.[oa]
+*~
+*.ipynb
+dist/
+build/
+*.egg-info/
+*.bash
+build/
