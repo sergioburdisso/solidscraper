@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
-import urllib
 import re
-try:
+try:  # python 3
     import http.client as httplib
-except:
+    from urllib.parse import urlencode
+except:  # python 2
     import httplib
+    from urllib import urlencode
 
 
 __ERRORS__ = {
@@ -113,8 +114,12 @@ def get(url, headers):
 
 
 def post(url, data, headers):
-    if type(data) != str and type(data) != unicode:
-        data = urllib.urlencode(data)
+    try:  # python 2
+        if type(data) != str and type(data) != unicode:
+            data = urlencode(data)
+    except:  # python 3
+        if type(data) != str:
+            data = urlencode(data)
     return __request__(method.POST, url, data, headers)
 
 

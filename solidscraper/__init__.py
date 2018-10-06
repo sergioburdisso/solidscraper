@@ -9,7 +9,7 @@ from . import soliddom as sdom
 import re
 import os
 
-__version__ = '0.7.5'
+__version__ = '0.7.6'
 __license__ = 'MIT'
 
 
@@ -85,7 +85,7 @@ __op_verbose__ = False
 __op_cookies__ = True
 
 
-def __request__(method, url, params):
+def __request__(method, url, params, redirect=True):
     global __http_headers__, __op_cookies__
 
     _p_url = shttp.parseUrl(url)
@@ -112,25 +112,27 @@ def __request__(method, url, params):
     if __op_cookies__:
         scookies.setFromHeader(_response.getHeader("Set-Cookie"))
 
-    _r_url = ""
-    if _response.status / 100 == 3:
+    if redirect:
+        _r_url = ""
+        if _response.status // 100 == 3:
 
-        _r_url = _response.getHeader("location")
-        if __op_verbose__:
-            print("[ sscraper: redirecting to ", _r_url, "]")
-
-    elif len(_response.body) < 512 and b'location.replace("http' in _response.body:
-
-        _r_url = re.search('(https?://.*?)[ ">]', _response.body).group(1)
-        if __op_verbose__:
-            print("[ sscraper: redirecting by JavaScript to ", _r_url, "]")
-
-    if _r_url:
-        if _r_url == url:
+            _r_url = _response.getHeader("location")
             if __op_verbose__:
-                print("[ sscraper: redirection to ", _r_url, " aborted]")
-            return _response
-        return get(_r_url)
+                print("[ sscraper: redirecting to ", _r_url, "]")
+
+        elif len(_response.body) < 512 and b'location.replace("http' in _response.body:
+
+            _r_url = re.search('(https?://.*?)[ ">]', _response.body).group(1)
+            if __op_verbose__:
+                print("[ sscraper: redirecting by JavaScript to ", _r_url, "]")
+
+        if _r_url:
+            if _r_url == url:
+                if __op_verbose__:
+                    print("[ sscraper: redirection to ", _r_url, " aborted]")
+                return _response
+            return get(_r_url)
+
     return _response
 
 
@@ -152,21 +154,21 @@ def clearCookies():
     scookies.clear()
 
 
-def setVerbose():
+def setVerbose(value=True):
     global __op_verbose__
-    __op_verbose__ = True
+    __op_verbose__ = value
 
 
 def lastVisitedUrl():
     return shttp.getLastUrl()
 
 
-def get(url):
-    return __request__(shttp.method.GET, url, "")
+def get(url, redirect=True):
+    return __request__(shttp.method.GET, url, "", redirect)
 
 
-def post(url, params):
-    return __request__(shttp.method.POST, url, params)
+def post(url, params, redirect=True):
+    return __request__(shttp.method.POST, url, params, redirect)
 
 
 def parse(html, charset="utf-8"):
@@ -208,23 +210,15 @@ def load(url):
 def save(res, filename="response", path=""):
     data = res.body
     (filename, ext) = os.path.splitext(filename)
-    # if isinstance(res, shttp.Response) and not ext:
-    #     ext = "." + re.match(
-    #         "^\w+/(\w+)",
-    #         res.getHeader("Content-Type")
-    #     )
-    #     if ext:
-    #         ext = ext.group(1)
-
-    # ext = ext if ext else ".html"
-
     try:
         os.makedirs(path)
     except OSError:
         pass
-    f = open(os.path.join(path, filename + ext), "w")
+
+    f = open(os.path.join(path, filename + ext), "w" if type(data) != bytes else "wb")
     f.write(data)
     f.close()
+
     return ext
 
 
