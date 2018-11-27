@@ -104,7 +104,7 @@ def download_n(hashtag, N):
 
             j = json.loads(r.body)
             items_html = j["items_html"].encode("utf8")
-            min_position = j["min_position"]
+            min_position = url_encode(j["min_position"])
 
             document = ss.parse(items_html)
             items_html = document.select("li")
@@ -123,10 +123,10 @@ def download_n(hashtag, N):
                 tweet_retweeter = node.getAttribute("data-retweeter")
                 tweet_mentions = node.getAttribute("data-mentions")
                 tweet_mentions = tweet_mentions.split() if tweet_mentions else []
-                tweet_raw_text = node.select(".tweet-text").text()
+                tweet_raw_text = node.select(".tweet-text").text().replace("\n", "")
                 tweet_lang = node.select(".tweet-text").getAttribute("lang")
                 tweet_lang = tweet_lang[0] if tweet_lang else ""
-                tweet_timestamp = int(node.select("@data-time-ms").getAttribute("data-time")[0])
+                tweet_timestamp = int(node.select("@data-time-ms").getAttribute("data-time")[0]) if node.select("@data-time-ms") else 0
                 tweet_hashtags = [tag.text()[1:] for tag in node.select(".twitter-hashtag")]
                 tweet_iscomment = node.getAttribute("data-is-reply-to") == "true"
 
@@ -143,8 +143,14 @@ def download_n(hashtag, N):
                     fixed_print(tweet_owner_username, 16),
                     fixed_print(tweet_owner_name, 19),
                     fixed_print(tweet_mentions + tweet_hashtags, 10),
-                    fixed_print(tweet_raw_text.replace("\n", ""), 54) + "..."
+                    fixed_print(tweet_raw_text, 54) + "..."
                 ))
+
+                # paste your code here to store the tweets
+                # e.g.
+                # file_tweets.write("%s:%s\n" % (tweet_id, tweet_raw_text))
+                # Note: file_tweets should be open having a utf-8 encoding, for instance:
+                # file_tweets = io.open("tweets.txt", "w", encoding="utf-8")
 
                 if tweet_retweeter:
                     retweet_counter += 1
