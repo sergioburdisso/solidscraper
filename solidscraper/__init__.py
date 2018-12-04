@@ -240,11 +240,3 @@ def download(url, path="", use_original_path=False):
             os.path.dirname(shttp.parseUrl(url).path)[1:]
         )
         return save(get(url), filename, path)
-
-
-if __name__ == "__main__":
-    setVerbose()
-
-    doc = load("http://www.eldiariodelarepublica.com")
-    print(doc.htmlBytes())
-    # print("title:", doc.select("meta").then("@name=description").text())

@@ -109,11 +109,11 @@ def parseUrl(url):
     return URL(_prot, _addr, _port, _path)
 
 
-def get(url, headers):
+def get(url, headers={}):
     return __request__(method.GET, url, None, headers)
 
 
-def post(url, data, headers):
+def post(url, data, headers={}):
     try:  # python 2
         if type(data) != str and type(data) != unicode:
             data = urlencode(data)
