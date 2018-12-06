@@ -6,8 +6,8 @@ import solidscraper as ss
 import traceback
 import argparse
 import json
-import time
 
+from time import time, sleep
 from datetime import timedelta
 from datetime import datetime
 from dateutil import tz
@@ -74,7 +74,7 @@ def download_n(hashtag, N):
     tweet_counter = 0
     retweet_counter = 0
 
-    _time_start_ = time.clock()
+    _time_start_ = time()
 
     print("\n\nAbout to start downloading tweets by tag:")
 
@@ -167,12 +167,12 @@ def download_n(hashtag, N):
             traceback.print_stack()
             print("[ error: %s ]" % str(e))
             print("[ trying again... ]")
-            time.sleep(5)
+            sleep(5)
             return False
 
     print(
         "\nprocess finished successfully! =D -- time:",
-        timedelta(seconds=time.clock() - _time_start_),
+        timedelta(seconds=time() - _time_start_),
         " --"
     )
 
