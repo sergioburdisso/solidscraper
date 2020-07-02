@@ -107,7 +107,6 @@ class SolidNode:
         self.__node__ = node
 
     def __select__(self, criteria, recursive):
-        criteria = criteria.lower()
         output = SolidNodeList()
         value = criteria[1:]
         child_nodes = [

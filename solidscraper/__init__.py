@@ -9,7 +9,7 @@ from . import soliddom as sdom
 import re
 import os
 
-__version__ = '0.7.6'
+__version__ = '0.7.7'
 __license__ = 'MIT'
 
 
